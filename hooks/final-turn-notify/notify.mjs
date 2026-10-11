@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 // final-turn-notify: 메인 턴이 끝나고 기다리는 서브에이전트가 없을 때, 또는 입력이 필요할 때만 macOS 알림을 보낸다.
 // 단일 진입점. stdin payload의 hook_event_name으로 분기한다. 모든 오류에서 fail-open (exit 0, stdout 비움).
-// 설계: plans/final-turn-notify.md
 
 import { spawn } from 'node:child_process';
 import { appendFileSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';

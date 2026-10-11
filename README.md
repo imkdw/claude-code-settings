@@ -68,7 +68,6 @@ claude-code-settings/
     *.mjs, *.test.mjs        구현과 테스트 (node, 외부 의존성 없음)
   scripts/                   레포 공용 도구
     merge-settings.mjs       snippet을 settings.json에 합치기/빼기 (백업, 중복 방지)
-  plans/                     설계 문서
 ```
 
 ### 새 항목 추가하기
@@ -88,7 +87,7 @@ claude-code-settings/
 
 ### final-turn-notify
 
-메인 에이전트의 턴이 끝났고 기다리는 서브에이전트가 없을 때, 또는 권한 요청/`AskUserQuestion` 으로 입력을 기다릴 때만 macOS 알림을 보낸다. 백그라운드 서브에이전트가 하나 끝날 때마다 오는 Orca `Agent task complete` 알림을 대체한다. 설계는 `plans/final-turn-notify.md`.
+메인 에이전트의 턴이 끝났고 기다리는 서브에이전트가 없을 때, 또는 권한 요청/`AskUserQuestion` 으로 입력을 기다릴 때만 macOS 알림을 보낸다. 백그라운드 서브에이전트가 하나 끝날 때마다 오는 Orca `Agent task complete` 알림을 대체한다.
 
 | 상황 | 부제목 | 소리 |
 |---|---|---|
