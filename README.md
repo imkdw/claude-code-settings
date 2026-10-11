@@ -89,7 +89,7 @@ claude-code-settings/
 
 | 파일 | 설명 |
 |---|---|
-| `instructions/CLAUDE.md` | 모든 프로젝트에 적용되는 개인 규칙. 브라우저는 ego-lite만 사용, 특수기호 금지, GitHub에 AI 서명 금지, Artifact 사용 금지 |
+| `instructions/CLAUDE.md` | 모든 프로젝트에 적용되는 개인 규칙. 특수기호 금지, GitHub에 AI 서명 금지, Artifact 사용 금지 |
 | `instructions/RTK.md` | `CLAUDE.md` 가 `@RTK.md` 로 불러오는 rtk 사용 안내. rtk 자체는 `brew install rtk` 로 따로 설치한다 |
 
 ## 훅 목록
