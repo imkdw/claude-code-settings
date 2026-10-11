@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # 레포의 공용 설정을 전역 ~/.claude 에 연결한다. 여러 번 실행해도 안전하다.
 #
-#   ./install.sh                 전부 설치 (skills, agents, commands, hooks)
+#   ./install.sh                 전부 설치 (skills, agents, commands, instructions, hooks)
 #   ./install.sh skills          스킬만
+#   ./install.sh instructions    전역 지침만
 #   ./install.sh hooks <이름>    특정 훅만 (예: ./install.sh hooks final-turn-notify)
 #   ./install.sh doctor          설치 상태 검사 (문제가 있으면 exit 1)
 #
@@ -10,6 +11,7 @@
 #   skills/<이름>/SKILL.md   -> ~/.claude/skills/<이름>       (디렉터리 심볼릭 링크)
 #   agents/<이름>.md         -> ~/.claude/agents/<이름>.md    (파일 심볼릭 링크)
 #   commands/<이름>.md       -> ~/.claude/commands/<이름>.md  (파일 심볼릭 링크)
+#   instructions/<이름>.md   -> ~/.claude/<이름>.md           (파일 심볼릭 링크)
 #   hooks/<이름>/install.sh  각 훅이 자체 설치 스크립트를 가진다
 set -euo pipefail
 
@@ -43,6 +45,14 @@ install_files() {
   done
 }
 
+install_instructions() {
+  mkdir -p "$CLAUDE_DIR"
+  for file in "$REPO_ROOT"/instructions/*.md; do
+    [[ -f "$file" ]] || continue
+    link "$file" "$CLAUDE_DIR/$(basename "$file")"
+  done
+}
+
 install_hooks() {
   local only="${1:-}"
   for script in "$REPO_ROOT"/hooks/*/install.sh; do
@@ -70,6 +80,12 @@ doctor() {
       if [[ "$(readlink "$dest")" == "$file" ]]; then echo "  ok   $dest"; else echo "  FAIL 링크 없음: $dest" >&2; fail=1; fi
     done
   done
+  echo "== instructions"
+  for file in "$REPO_ROOT"/instructions/*.md; do
+    [[ -f "$file" ]] || continue
+    dest="$CLAUDE_DIR/$(basename "$file")"
+    if [[ "$(readlink "$dest")" == "$file" ]]; then echo "  ok   $dest"; else echo "  FAIL 링크 없음: $dest" >&2; fail=1; fi
+  done
   for script in "$REPO_ROOT"/hooks/*/install.sh; do
     [[ -f "$script" ]] || continue
     name="$(basename "$(dirname "$script")")"
@@ -84,13 +100,15 @@ case "${1:-all}" in
   skills) install_skills ;;
   agents) install_files agents ;;
   commands) install_files commands ;;
+  instructions) install_instructions ;;
   hooks) install_hooks "${2:-}" ;;
   doctor) doctor ;;
   all)
     install_skills
     install_files agents
     install_files commands
+    install_instructions
     install_hooks
     ;;
-  *) echo "usage: $0 [all|skills|agents|commands|hooks [이름]|doctor]" >&2; exit 2 ;;
+  *) echo "usage: $0 [all|skills|agents|commands|instructions|hooks [이름]|doctor]" >&2; exit 2 ;;
 esac
