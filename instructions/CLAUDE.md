@@ -1,10 +1,5 @@
 # Global Instructions
 
-## 브라우저 접근은 ego-lite만 사용
-
-- 브라우저에 접근하거나 브라우저 자동화가 필요한 모든 작업은 무조건 ego-lite(`ego-browser` 명령, `ego-browser` 스킬)를 통해서만 수행한다.
-- playwright(playwright MCP, playwright-cli 등)와 claude-in-chrome 등 다른 브라우저 자동화 도구는 절대 사용하지 않는다.
-
 ## 특수기호 사용 금지
 
 - 응답, 문서, 커밋 메시지 등 모든 텍스트 출력에서 가운뎃점(·) 같은 특수기호를 사용하지 않는다.
