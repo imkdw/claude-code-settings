@@ -67,7 +67,7 @@ A clean working tree is a no-op, not an error.
 
 - Mirror the repo. Do not "improve" its style - if history uses `feat:` in
   English, write `feat:` in English. If it uses `[Feat] 한국어`, write that.
-- Do not add a ticket key (`[PPLSC-1234]`, `ABC-12`) to an individual commit
+- Do not add a ticket key (`[ABC-1234]`, `ABC-12`) to an individual commit
   unless the history shows it on individual commits. Squash-merge repos attach
   it at merge time.
 - Fallback convention (no usable history): `[Tag] 한국어 설명`, subject only,
