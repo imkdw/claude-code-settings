@@ -83,7 +83,7 @@ claude-code-settings/
 
 | 스킬 | 설명 |
 |---|---|
-| `nano-commit` | 레포의 기존 커밋 스타일을 읽어서 변경사항을 원자적 커밋으로 나눈다. 트리거: "커밋해줘", `/nano-commit` |
+| `nano-commit` | 변경사항을 원자적 커밋으로 나누고 항상 `feat:`, `chore:` 형식으로 쓴다. 모노레포는 `feat(api):` 처럼 스코프를 붙인다. 트리거: "커밋해줘", `/nano-commit` |
 
 ## 전역 지침 목록
 
