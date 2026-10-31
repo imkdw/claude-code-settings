@@ -11,7 +11,8 @@
 #   skills/<이름>/SKILL.md   -> ~/.claude/skills/<이름>       (디렉터리 심볼릭 링크)
 #   agents/<이름>.md         -> ~/.claude/agents/<이름>.md    (파일 심볼릭 링크)
 #   commands/<이름>.md       -> ~/.claude/commands/<이름>.md  (파일 심볼릭 링크)
-#   instructions/<이름>.md   -> ~/.claude/<이름>.md           (파일 심볼릭 링크)
+#   instructions/<이름>.md   -> ~/.claude/<이름>.md           (파일 복사, 이미 있으면 건너뜀)
+#     전역 지침은 PC마다 다를 수 있어서 링크하지 않는다. 레포 파일은 처음 설치할 때 쓰는 기본값이다.
 #   hooks/<이름>/install.sh  각 훅이 자체 설치 스크립트를 가진다
 set -euo pipefail
 
@@ -47,9 +48,20 @@ install_files() {
 
 install_instructions() {
   mkdir -p "$CLAUDE_DIR"
+  local file dest
   for file in "$REPO_ROOT"/instructions/*.md; do
     [[ -f "$file" ]] || continue
-    link "$file" "$CLAUDE_DIR/$(basename "$file")"
+    dest="$CLAUDE_DIR/$(basename "$file")"
+    if [[ -L "$dest" && "$(readlink "$dest")" == "$file" ]]; then
+      rm "$dest"
+      cp "$file" "$dest"
+      echo "링크를 복사본으로 교체: $dest"
+    elif [[ -e "$dest" || -L "$dest" ]]; then
+      echo "건너뜀: $dest 가 이미 있음 (PC별 지침이라 덮어쓰지 않음)"
+    else
+      cp "$file" "$dest"
+      echo "복사: $dest"
+    fi
   done
 }
 
@@ -84,7 +96,9 @@ doctor() {
   for file in "$REPO_ROOT"/instructions/*.md; do
     [[ -f "$file" ]] || continue
     dest="$CLAUDE_DIR/$(basename "$file")"
-    if [[ "$(readlink "$dest")" == "$file" ]]; then echo "  ok   $dest"; else echo "  FAIL 링크 없음: $dest" >&2; fail=1; fi
+    if [[ -L "$dest" ]]; then echo "  FAIL 심볼릭 링크임 (PC별 실제 파일이어야 함): $dest" >&2; fail=1
+    elif [[ -f "$dest" ]]; then echo "  ok   $dest"
+    else echo "  FAIL 파일 없음: $dest" >&2; fail=1; fi
   done
   for script in "$REPO_ROOT"/hooks/*/install.sh; do
     [[ -f "$script" ]] || continue
