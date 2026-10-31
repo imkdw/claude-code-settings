@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}}</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<script src="https://unpkg.com/react-grab/dist/index.global.js" crossorigin="anonymous"></script>
+<style>
+:root{
+  --bg:#f2f4f6; --card:#ffffff; --ink:#191f28; --ink2:#333d4b; --muted:#4e5968; --soft:#8b95a1;
+  --rule:#e5e8eb; --rule2:#d1d6db;
+  --blue:#3182f6; --blue-d:#1b64da; --blue-t:#e8f3ff;
+  --red:#f04452; --red-t:#ffeeee;
+  --orange:#fe9800; --orange-t:#fff3e0;
+  --green:#03b26c; --green-t:#e5f8ef;
+  --grey-t:#f2f4f6;
+  --mono:'SF Mono','Menlo','Consolas',monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;font-size:16px;line-height:1.65;word-break:keep-all;overflow-wrap:break-word}
+.wrap{max-width:960px;margin:0 auto;padding:40px 16px 80px}
+header.hero{padding:24px 4px 32px}
+.eyebrow{display:inline-block;font-size:13px;font-weight:600;color:var(--blue);background:var(--blue-t);padding:4px 10px;border-radius:8px}
+h1{font-size:34px;line-height:1.3;font-weight:700;letter-spacing:-0.02em;margin:14px 0 10px}
+.lead{font-size:18px;color:var(--ink2);margin:0}
+.meta{margin-top:16px;font-size:13px;color:var(--soft)}
+nav.toc{background:var(--card);border-radius:16px;padding:20px 24px;margin-bottom:20px}
+nav.toc b{font-size:14px;color:var(--muted)}
+nav.toc ol{margin:8px 0 0;padding-left:20px;columns:2;column-gap:32px;font-size:15px}
+nav.toc a{color:var(--ink2);text-decoration:none}
+nav.toc a:hover{color:var(--blue)}
+section.card{background:var(--card);border-radius:20px;padding:32px 28px;margin-bottom:20px}
+h2{font-size:24px;font-weight:700;letter-spacing:-0.01em;margin:0 0 6px}
+h2 .num{color:var(--blue);margin-right:8px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:15px}
+h3{font-size:18px;font-weight:700;margin:28px 0 10px}
+p{margin:0 0 12px}
+ul,ol{margin:0 0 12px;padding-left:22px}
+li{margin:4px 0}
+code{font-family:var(--mono);font-size:0.86em;background:var(--grey-t);color:var(--ink2);padding:2px 6px;border-radius:6px}
+pre{font-family:var(--mono);font-size:13px;line-height:1.6;background:#191f28;color:#e5e8eb;padding:16px 18px;border-radius:12px;overflow-x:auto;margin:8px 0 16px}
+a{color:var(--blue)}
+.grid{display:grid;gap:12px}
+.g3{grid-template-columns:1.15fr 1fr 0.9fr}
+.g2{grid-template-columns:1fr 1fr}
+@media (max-width:720px){.g3,.g2{grid-template-columns:1fr} nav.toc ol{columns:1} h1{font-size:28px} section.card{padding:24px 18px}}
+.box{border:1px solid var(--rule);border-radius:14px;padding:18px 18px}
+.box .k{font-size:13px;font-weight:600;color:var(--blue);margin-bottom:6px}
+.box .t{font-size:17px;font-weight:700;margin-bottom:6px;line-height:1.45}
+.box p{font-size:15px;color:var(--ink2);margin:0}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+@media (max-width:720px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:var(--grey-t);border-radius:14px;padding:16px}
+.stat .v{font-size:24px;font-weight:700;letter-spacing:-0.02em}
+.stat .l{font-size:13px;color:var(--muted)}
+.callout{border-radius:14px;padding:16px 18px;margin:14px 0;font-size:15px}
+.callout b.h{display:block;margin-bottom:4px;font-size:15px}
+.c-blue{background:var(--blue-t);color:#123a73}
+.c-red{background:var(--red-t);color:#7a1d25}
+.c-orange{background:var(--orange-t);color:#6b3f00}
+.c-green{background:var(--green-t);color:#014d2f}
+.c-grey{background:var(--grey-t);color:var(--ink2)}
+.tbl{width:100%;overflow-x:auto;margin:8px 0 16px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--rule)}
+th{font-weight:600;color:var(--muted);background:var(--grey-t);font-size:13px}
+th:first-child{border-top-left-radius:10px} th:last-child{border-top-right-radius:10px}
+.tag{display:inline-block;font-size:12px;font-weight:600;padding:2px 8px;border-radius:6px;white-space:nowrap}
+.t-done{background:var(--green-t);color:#027a4a}
+.t-now{background:var(--blue-t);color:var(--blue-d)}
+.t-wait{background:var(--orange-t);color:#a35f00}
+.t-todo{background:var(--grey-t);color:var(--muted)}
+.t-high{background:var(--red-t);color:#c4202d}
+.t-mid{background:var(--orange-t);color:#a35f00}
+.t-low{background:var(--grey-t);color:var(--muted)}
+.steps{list-style:none;padding:0;margin:0}
+.step{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:20px 0;border-top:1px solid var(--rule)}
+.step:first-child{border-top:none;padding-top:4px}
+.step .n{width:36px;height:36px;border-radius:12px;background:var(--blue-t);color:var(--blue);font-weight:700;display:flex;align-items:center;justify-content:center;font-size:16px}
+.step.focus .n{background:var(--blue);color:#fff}
+.step h4{margin:4px 0 6px;font-size:17px}
+.step .why{font-size:14px;color:var(--muted);margin-bottom:8px}
+.chk{list-style:none;padding:0;margin:0}
+.chk li{position:relative;padding-left:28px;margin:8px 0;font-size:15px}
+.chk li::before{content:'';position:absolute;left:0;top:3px;width:18px;height:18px;border:1.5px solid var(--rule2);border-radius:6px;background:#fff}
+.who{font-size:12px;color:var(--soft);margin-left:6px}
+figure.diagram{margin:16px 0 8px}
+.dwrap{overflow-x:auto;border:1px solid var(--rule);border-radius:14px;background:#fff}
+.dwrap svg{display:block}
+figcaption{font-size:13px;color:var(--soft);margin-top:8px}
+details{border:1px solid var(--rule);border-radius:12px;padding:12px 16px;margin:10px 0}
+details summary{cursor:pointer;font-weight:600;font-size:15px}
+details[open] summary{margin-bottom:10px}
+footer{font-size:13px;color:var(--soft);text-align:center;margin-top:24px}
+html{scroll-behavior:smooth}
+section.card,h3[id]{scroll-margin-top:20px}
+.sidebar{display:none}
+pre .c{color:#8b95a1;font-style:italic}
+pre .p{color:#b0b8c1}
+.term{border-radius:12px;overflow:hidden;background:#191f28;margin:14px 0 6px}
+.term .bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 16px;background:#2b3240;font-family:var(--mono);font-size:12.5px;color:#d1d6db}
+.term .badge{margin-left:auto;font-weight:700;font-size:12px;padding:3px 10px;border-radius:6px;background:#f04452;color:#fff;font-family:'Pretendard',sans-serif}
+.term pre{margin:0;border-radius:0}
+.term mark,.term-legend i{border-radius:3px;padding:0 2px;color:inherit}
+.term mark.m1,.term-legend i.m1{background:rgba(240,68,82,.38)}
+.term mark.m2,.term-legend i.m2{background:rgba(254,152,0,.34)}
+.term mark.m3,.term-legend i.m3{background:rgba(49,130,246,.42)}
+.term-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--muted)}
+.term-legend span{display:inline-flex;align-items:center;gap:6px}
+.term-legend i{display:inline-block;width:14px;height:14px}
+pre .s{color:#7ee2b8}
+pre .k{color:#93c2ff}
+pre .kw{color:#ff9db0;font-weight:600}
+pre .n{color:#ffd27d}
+pre .t{color:#f7b3e4}
+.g-shot{grid-template-columns:240px 1fr;gap:20px;align-items:start}
+@media (max-width:720px){.g-shot{grid-template-columns:1fr}.g-shot figure{max-width:260px}}
+figure.shot{margin:14px 0 18px}
+figure.shot img{display:block;width:100%;height:auto;border:1px solid var(--rule);border-radius:14px;background:#fff}
+figure.shot.narrow img{max-width:640px;margin:0 auto}
+@media (min-width:1240px){
+  body{padding-left:272px}
+  .sidebar{display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;width:272px;background:var(--card);border-right:1px solid var(--rule);padding:28px 16px 20px;overflow-y:auto;z-index:10}
+  nav.toc{display:none}
+}
+.sidebar .brand{padding:0 12px 18px;border-bottom:1px solid var(--rule);margin-bottom:12px}
+.sidebar .brand .e{font-size:12px;font-weight:600;color:var(--blue)}
+.sidebar .brand .t{font-size:17px;font-weight:700;margin-top:4px;line-height:1.35}
+.sidebar .brand .d{font-size:12px;color:var(--soft);margin-top:4px}
+.sidebar ol{list-style:none;margin:0;padding:0}
+.sidebar li{margin:0}
+.sidebar a{display:flex;gap:10px;align-items:baseline;padding:8px 12px;border-radius:10px;color:var(--ink2);text-decoration:none;font-size:14px;line-height:1.4}
+.sidebar a .i{min-width:18px;font-size:12px;font-weight:700;color:var(--soft)}
+.sidebar a:hover{background:var(--grey-t)}
+.sidebar a.active{background:var(--blue-t);color:var(--blue-d);font-weight:600}
+.sidebar a.active .i{color:var(--blue)}
+.sidebar ol.subs{margin:2px 0 6px 28px;border-left:1px solid var(--rule)}
+.sidebar ol.subs a{font-size:13px;padding:5px 12px;color:var(--muted);border-radius:0 8px 8px 0}
+.sidebar ol.subs a.active{background:transparent;color:var(--blue-d);font-weight:600;box-shadow:inset 2px 0 0 var(--blue)}
+.sidebar .foot{margin-top:auto;padding:16px 12px 0;font-size:12px;color:var(--soft)}
+</style>
+</head>
+<body>
+<!--
+  사용법
+  - {{...}} 자리표시자를 전부 채우고, 쓰지 않는 예시 섹션은 지운다.
+  - 섹션을 추가할 때는 사이드바(.sidebar)와 상단 목차(nav.toc) 둘 다에 링크를 넣는다.
+  - 하위 절은 <h3 id="..."> 를 달고 사이드바의 ol.subs 에 data-target 으로 연결한다.
+  - 컴포넌트 마크업은 references/components.md 를 본다.
+-->
+<aside class="sidebar" aria-label="목차">
+  <div class="brand"><div class="e">{{EYEBROW}}</div><div class="t">{{TITLE}}</div><div class="d">기준일 {{DATE}}</div></div>
+  <ol>
+    <li><a href="#summary" data-target="summary"><span class="i">1</span><span>요약</span></a></li>
+    <li><a href="#detail" data-target="detail"><span class="i">2</span><span>{{SECTION_2}}</span></a>
+      <ol class="subs"><li><a href="#detail-a" data-target="detail-a">{{SUB_2_1}}</a></li><li><a href="#detail-b" data-target="detail-b">{{SUB_2_2}}</a></li></ol></li>
+    <li><a href="#sources" data-target="sources"><span class="i">3</span><span>자료 출처</span></a></li>
+  </ol>
+  <div class="foot">{{FILE_PATH}}</div>
+</aside>
+<div class="wrap">
+
+<header class="hero">
+  <span class="eyebrow">{{EYEBROW}}</span>
+  <h1>{{TITLE}}</h1>
+  <p class="lead">{{LEAD: 이 리포트가 무엇을 정리했는지 한두 문장}}</p>
+  <div class="meta">기준일 {{DATE}} / 근거: {{SOURCES_SHORT}}</div>
+</header>
+
+<nav class="toc">
+  <b>목차</b>
+  <ol>
+    <li><a href="#summary">요약</a></li>
+    <li><a href="#detail">{{SECTION_2}}</a></li>
+    <li><a href="#sources">자료 출처</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section class="card" id="summary">
+  <h2><span class="num">1</span>요약</h2>
+  <p class="sub">{{섹션 한 줄 안내}}</p>
+  <div class="grid g3">
+    <div class="box"><div class="k">{{라벨}}</div><div class="t">{{핵심 한 문장}}</div><p>{{보충 설명}}</p></div>
+    <div class="box"><div class="k">{{라벨}}</div><div class="t">{{핵심 한 문장}}</div><p>{{보충 설명}}</p></div>
+    <div class="box"><div class="k">{{라벨}}</div><div class="t">{{핵심 한 문장}}</div><p>{{보충 설명}}</p></div>
+  </div>
+  <div class="callout c-blue"><b class="h">한 문장으로</b>{{결론 한 문장}}</div>
+</section>
+
+<!-- 2 -->
+<section class="card" id="detail">
+  <h2><span class="num">2</span>{{SECTION_2}}</h2>
+  <p class="sub">{{섹션 한 줄 안내}}</p>
+
+  <h3 id="detail-a">{{SUB_2_1}}</h3>
+  <p>{{본문}}</p>
+
+  <h3 id="detail-b">{{SUB_2_2}}</h3>
+  <div class="tbl"><table>
+    <tr><th style="width:28%">{{열1}}</th><th>{{열2}}</th><th style="width:16%">상태</th></tr>
+    <tr><td><b>{{항목}}</b></td><td>{{설명}}</td><td><span class="tag t-done">완료</span></td></tr>
+    <tr><td><b>{{항목}}</b></td><td>{{설명}}</td><td><span class="tag t-todo">예정</span></td></tr>
+  </table></div>
+</section>
+
+<!-- 3 -->
+<section class="card" id="sources">
+  <h2><span class="num">3</span>자료 출처</h2>
+  <p class="sub">이 리포트가 근거로 삼은 자료와 확인하지 못한 부분입니다.</p>
+  <ul>
+    <li>{{자료명, 버전/날짜, 쪽수}}</li>
+  </ul>
+  <div class="callout c-grey"><b class="h">확인 한계</b>{{직접 확인하지 못한 내용}}</div>
+</section>
+
+<footer>{{TITLE}} / 기준일 {{DATE}}</footer>
+</div>
+
+<script>
+(function(){
+  var KW='const|let|var|function|async|await|return|if|else|try|catch|finally|export|import|new|for|of|in|true|false|null|undefined|typeof|SELECT|UPDATE|SET|WHERE|AND|OR|IN|IS|NULL|NOT|ORDER|BY|LIMIT|INTERVAL|MINUTE|NOW|FROM|INSERT|INTO|VALUES|ASC|DESC';
+  var re=new RegExp('((?<!:)\\/\\/[^\\n]*|\\/\\*[\\s\\S]*?\\*\\/)|("(?:\\\\.|[^"\\\\\\n])*"|\'(?:\\\\.|[^\'\\\\\\n])*\')|(<\\/?[A-Za-z][^>\\n]*>)|\\b(\\d+(?:\\.\\d+)?)\\b|\\b('+KW+')\\b','g');
+  function esc(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  [].forEach.call(document.querySelectorAll('pre:not(.raw)'),function(pre){
+    var src=pre.textContent,out='',last=0,m;
+    re.lastIndex=0;
+    while((m=re.exec(src))){
+      out+=esc(src.slice(last,m.index));
+      var cls=m[1]?'c':m[2]?(/^\s*:/.test(src.slice(re.lastIndex))?'k':'s'):m[3]?'t':m[4]?'n':'kw';
+      out+='<span class="'+cls+'">'+esc(m[0])+'</span>';
+      last=re.lastIndex;
+    }
+    pre.innerHTML=out+esc(src.slice(last));
+  });
+})();
+</script>
+<script>
+(function(){
+  // 사이드바 현재 위치 강조. 하위 링크는 현재 섹션의 ol.subs 안에 있을 때만 강조한다.
+  var links=[].slice.call(document.querySelectorAll('.sidebar a[data-target]'));
+  if(!links.length)return;
+  var map={};links.forEach(function(a){map[a.getAttribute('data-target')]=a;});
+  var targets=links.map(function(a){return document.getElementById(a.getAttribute('data-target'));}).filter(Boolean);
+  function update(){
+    var y=window.scrollY+120,main=null,sub=null;
+    targets.forEach(function(el){
+      if(el.getBoundingClientRect().top+window.scrollY<=y){
+        if(el.tagName==='SECTION')main=el.id;else sub=el.id;
+      }
+    });
+    if(!main&&targets.length)main=targets[0].id;
+    if(sub&&!(main&&map[main]&&map[main].parentNode.contains(map[sub])))sub=null;
+    links.forEach(function(a){a.classList.remove('active');});
+    if(main&&map[main])map[main].classList.add('active');
+    if(sub&&map[sub])map[sub].classList.add('active');
+  }
+  window.addEventListener('scroll',update,{passive:true});update();
+})();
+</script>
+</body>
+</html>
