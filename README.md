@@ -76,7 +76,7 @@ claude-code-settings/
 
 - **스킬**: `skills/<이름>/SKILL.md` 를 만들고 `./install.sh skills`
 - **에이전트/커맨드**: `agents/<이름>.md` 또는 `commands/<이름>.md` 를 만들고 `./install.sh agents` / `./install.sh commands`
-- **전역 지침**: 모든 PC에 공통으로 둘 기본값만 `instructions/` 에 둔다. 이미 설치된 PC에는 자동으로 퍼지지 않으니 필요한 PC의 `~/.claude/CLAUDE.md` 에 직접 옮긴다. 특정 PC나 특정 프로젝트에만 해당하는 규칙은 레포에 넣지 않는다.
+- **전역 지침**: 모든 PC에 공통으로 둘 기본값만 `instructions/` 에 둔다. 모든 세션에 항상 적용할 짧은 규칙만 넣고, 특정 작업(리포트 작성 등)에서만 쓰는 규칙은 스킬로 만든다. 이미 설치된 PC에는 자동으로 퍼지지 않으니 필요한 PC의 `~/.claude/CLAUDE.md` 에 직접 옮긴다. 특정 PC나 특정 프로젝트에만 해당하는 규칙은 레포에 넣지 않는다.
 - **훅**: `hooks/<이름>/` 에 구현, `settings.snippet.json`, `install.sh` 를 두고 `./install.sh hooks <이름>`. `install.sh` 는 `hooks/final-turn-notify/install.sh` 를 복사해서 시작하면 된다. `--check` 를 꼭 구현한다. `doctor` 가 모든 훅의 `install.sh --check` 를 호출해서 검증하기 때문이다.
 - 새 항목이 설치 절차나 수동 작업을 바꾸면 `INSTALL.md` 도 같이 고친다. 에이전트는 그 파일만 보고 설치한다.
 
@@ -84,13 +84,14 @@ claude-code-settings/
 
 | 스킬 | 설명 |
 |---|---|
-| `nano-commit` | 변경사항을 원자적 커밋으로 나누고 항상 `feat:`, `chore:` 형식으로 쓴다. 모노레포는 `feat(api):` 처럼 스코프를 붙인다. 트리거: "커밋해줘", `/nano-commit` |
+| `nano-commit` | 변경사항을 Conventional Commits 형식의 원자적 커밋으로 나눈다. 트리거: "커밋해줘", `/nano-commit` |
+| `html-report` | 리포트를 TDS 스타일 HTML 파일로 작성. 트리거: "리포트 써줘" |
 
 ## 전역 지침 목록
 
 | 파일 | 설명 |
 |---|---|
-| `instructions/CLAUDE.md` | 새 PC에 복사할 전역 지침 기본값. 특수기호 금지, GitHub에 AI 서명 금지, Artifact 사용 금지 |
+| `instructions/CLAUDE.md` | 새 PC에 복사할 전역 지침 기본값. 모든 세션에 항상 적용할 규칙만 둔다 |
 | `instructions/RTK.md` | `CLAUDE.md` 가 `@RTK.md` 로 불러오는 rtk 사용 안내. rtk 자체는 `brew install rtk` 로 따로 설치한다 |
 
 ## 훅 목록
