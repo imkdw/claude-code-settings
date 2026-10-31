@@ -104,6 +104,24 @@ claude-code-settings/
 | 권한 요청, AskUserQuestion | 입력 필요 / 질문 대기 | Glass |
 | API 오류로 종료 | 오류로 중단 | Basso |
 
-- 테스트: `node --test hooks/*/*.test.mjs`
 - 디버그: `FINAL_TURN_NOTIFY_LOG=/tmp/ftn.log` 를 환경에 두면 이벤트별 payload 키와 판정 결과를 기록한다
 - 제거: `hooks/final-turn-notify/install.sh --uninstall` 후 Orca 알림 다시 켜기
+
+### forbidden-word-guard
+
+특정 저장소에 금지 단어가 들어가지 않게 Claude의 도구 호출을 미리 막는 `PreToolUse` 훅이다. 단어 목록과 적용 범위는 레포에 두지 않고 각 PC의 파일에서 읽는다.
+
+| 파일 | 내용 |
+|---|---|
+| `~/.git-hooks/forbidden-words` | 한 줄에 단어 하나. 대소문자 구분 안 함. `#` 줄과 빈 줄은 무시 |
+| `~/.git-hooks/forbidden-scope` | 검사할 저장소의 origin URL 일부. 한 줄에 하나 |
+
+- 파일 쓰기(Write/Edit/MultiEdit/NotebookEdit): 쓰는 내용과 저장소 기준 상대 경로를 검사한다
+- Bash: `git commit`, `git tag`, `gh pr/issue/release/api` 만 검사한다. 홈 경로와 그 인코딩 형태(`-Users-...`)는 지우고 검사하고, `-F`, `--body-file`, `=@파일` 로 넘긴 파일은 내용을 읽는다
+- 위 두 파일이 없거나 origin이 범위 밖이면 아무것도 하지 않는다. 오류가 나면 경고만 남기고 통과한다
+- 커밋/푸시 단계 검사는 각 저장소의 git 훅이 맡는다. 이 훅은 그 전에 덜 걸리게 하는 앞단이다
+- 제거: `hooks/forbidden-word-guard/install.sh --uninstall`
+
+### 공통
+
+- 테스트: `node --test hooks/*/*.test.mjs`

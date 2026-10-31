@@ -76,7 +76,7 @@ On Linux or Windows, install only skills/agents/commands/instructions and skip h
 ## Uninstall
 
 ```bash
-cd "$HOME/claude-code-settings" && hooks/final-turn-notify/install.sh --uninstall
+cd "$HOME/claude-code-settings" && hooks/final-turn-notify/install.sh --uninstall && hooks/forbidden-word-guard/install.sh --uninstall
 ```
 
 This removes only this repo's hook entries from `settings.json`. Skill/agent/command/instruction symlinks can be deleted with `find ~/.claude -maxdepth 2 -lname "$HOME/claude-code-settings/*" -delete`.
