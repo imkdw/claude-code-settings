@@ -2,13 +2,14 @@
 
 This file is for an AI coding agent (Claude Code, Codex, etc.) asked to install this repo. Run the steps in order. Every step is idempotent, so running it again is safe.
 
-What this installs: shared Claude Code skills, agents, commands, global instructions (`CLAUDE.md`) and hooks from `github.com/imkdw/claude-code-settings` into `~/.claude`, as symlinks into a local clone.
+What this installs: shared Claude Code skills, agents, commands, global instructions (`CLAUDE.md`) and hooks from `github.com/imkdw/claude-code-settings` into `~/.claude`. Skills, agents, commands and hooks are symlinks into a local clone. Global instructions (`CLAUDE.md`, `RTK.md`) are copied once and never overwritten, because each machine keeps its own.
 
 ## Rules
 
 - Do not use `sudo`. If a step needs it, stop and ask the user.
 - Do not edit `~/.claude/settings.json` by hand. `install.sh` merges only this repo's hook entries and writes a backup first (`settings.json.bak.<timestamp>`).
 - If `install.sh` prints `건너뜀` (skipped) for a path, a real file or folder with that name already exists there. Do not delete it. Report it to the user.
+- Do not replace an existing `~/.claude/CLAUDE.md` or `~/.claude/RTK.md`. They are per-machine files; `install.sh` only copies them when absent.
 - Reply to the user in Korean.
 
 ## Steps
@@ -79,4 +80,4 @@ On Linux or Windows, install only skills/agents/commands/instructions and skip h
 cd "$HOME/claude-code-settings" && hooks/final-turn-notify/install.sh --uninstall && hooks/forbidden-word-guard/install.sh --uninstall
 ```
 
-This removes only this repo's hook entries from `settings.json`. Skill/agent/command/instruction symlinks can be deleted with `find ~/.claude -maxdepth 2 -lname "$HOME/claude-code-settings/*" -delete`.
+This removes only this repo's hook entries from `settings.json`. Global instructions are local copies and stay in place. Skill/agent/command symlinks can be deleted with `find ~/.claude -maxdepth 2 -lname "$HOME/claude-code-settings/*" -delete`.

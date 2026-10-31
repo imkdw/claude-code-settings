@@ -1,7 +1,8 @@
 # claude-code-settings
 
 여러 프로젝트에서 공용으로 쓰는 Claude Code 스킬/에이전트/커맨드/훅/전역 지침을 모아 두는 레포.
-파일은 레포에 두고 `~/.claude` 에는 심볼릭 링크만 건다. 레포를 고치면 바로 전역에 반영된다.
+스킬/에이전트/커맨드/훅은 레포에 두고 `~/.claude` 에는 심볼릭 링크만 건다. 레포를 고치면 바로 전역에 반영된다.
+전역 지침(`CLAUDE.md`, `RTK.md`)은 PC마다 다를 수 있어서 링크하지 않고 처음 설치할 때 한 번 복사한다. 이후에는 각 PC의 `~/.claude/CLAUDE.md` 를 직접 고친다.
 
 ## 설치
 
@@ -24,7 +25,7 @@ https://raw.githubusercontent.com/imkdw/claude-code-settings/main/INSTALL.md 읽
 ./install.sh hooks final-turn-notify   # 특정 훅만
 ```
 
-여러 번 실행해도 안전하다. `~/.claude` 에 같은 이름의 실제 파일/폴더가 있으면 덮어쓰지 않고 건너뛴다.
+여러 번 실행해도 안전하다. `~/.claude` 에 같은 이름의 실제 파일/폴더가 있으면 덮어쓰지 않고 건너뛴다. 전역 지침이 예전 방식대로 레포를 가리키는 링크라면 복사본으로 바꾼다.
 
 ### 설치 검증
 
@@ -62,7 +63,7 @@ claude-code-settings/
   skills/<이름>/SKILL.md     공용 스킬       -> ~/.claude/skills/<이름>
   agents/<이름>.md           공용 서브에이전트 -> ~/.claude/agents/<이름>.md
   commands/<이름>.md         공용 슬래시 커맨드 -> ~/.claude/commands/<이름>.md
-  instructions/<이름>.md     전역 지침       -> ~/.claude/<이름>.md
+  instructions/<이름>.md     전역 지침 기본값 -> ~/.claude/<이름>.md (복사, 이미 있으면 건너뜀)
   hooks/<이름>/              훅 하나당 폴더 하나
     install.sh               링크 + 의존성 확인 + settings.json 등록 (--check, --uninstall 지원)
     settings.snippet.json    전역 settings.json에 합칠 hooks 블록
@@ -75,7 +76,7 @@ claude-code-settings/
 
 - **스킬**: `skills/<이름>/SKILL.md` 를 만들고 `./install.sh skills`
 - **에이전트/커맨드**: `agents/<이름>.md` 또는 `commands/<이름>.md` 를 만들고 `./install.sh agents` / `./install.sh commands`
-- **전역 지침**: `instructions/CLAUDE.md` 를 고치면 바로 반영된다. `@파일명.md` 로 불러오는 파일을 추가했다면 같은 폴더에 두고 `./install.sh instructions`
+- **전역 지침**: 모든 PC에 공통으로 둘 기본값만 `instructions/` 에 둔다. 이미 설치된 PC에는 자동으로 퍼지지 않으니 필요한 PC의 `~/.claude/CLAUDE.md` 에 직접 옮긴다. 특정 PC나 특정 프로젝트에만 해당하는 규칙은 레포에 넣지 않는다.
 - **훅**: `hooks/<이름>/` 에 구현, `settings.snippet.json`, `install.sh` 를 두고 `./install.sh hooks <이름>`. `install.sh` 는 `hooks/final-turn-notify/install.sh` 를 복사해서 시작하면 된다. `--check` 를 꼭 구현한다. `doctor` 가 모든 훅의 `install.sh --check` 를 호출해서 검증하기 때문이다.
 - 새 항목이 설치 절차나 수동 작업을 바꾸면 `INSTALL.md` 도 같이 고친다. 에이전트는 그 파일만 보고 설치한다.
 
@@ -89,7 +90,7 @@ claude-code-settings/
 
 | 파일 | 설명 |
 |---|---|
-| `instructions/CLAUDE.md` | 모든 프로젝트에 적용되는 개인 규칙. 특수기호 금지, GitHub에 AI 서명 금지, Artifact 사용 금지 |
+| `instructions/CLAUDE.md` | 새 PC에 복사할 전역 지침 기본값. 특수기호 금지, GitHub에 AI 서명 금지, Artifact 사용 금지 |
 | `instructions/RTK.md` | `CLAUDE.md` 가 `@RTK.md` 로 불러오는 rtk 사용 안내. rtk 자체는 `brew install rtk` 로 따로 설치한다 |
 
 ## 훅 목록
