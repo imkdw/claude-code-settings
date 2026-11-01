@@ -140,6 +140,17 @@ figure.shot.narrow img{max-width:640px;margin:0 auto}
 .sidebar ol.subs a{font-size:13px;padding:5px 12px;color:var(--muted);border-radius:0 8px 8px 0}
 .sidebar ol.subs a.active{background:transparent;color:var(--blue-d);font-weight:600;box-shadow:inset 2px 0 0 var(--blue)}
 .sidebar .foot{margin-top:auto;padding:16px 12px 0;font-size:12px;color:var(--soft)}
+/* 문서 보기 모드: .wrap 만 화면 너비에 꽉 차게, 카드 대신 구분선으로 보여준다 */
+.view-toggle{position:fixed;right:20px;bottom:20px;z-index:20;display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:1px solid var(--rule2);border-radius:999px;background:var(--card);color:var(--ink2);font:600 14px 'Pretendard',sans-serif;box-shadow:0 4px 16px rgba(0,0,0,.08);cursor:pointer}
+.view-toggle:hover{color:var(--blue);border-color:var(--blue)}
+.view-toggle kbd{font:600 11px var(--mono);color:var(--soft);border:1px solid var(--rule);border-radius:4px;padding:0 5px}
+body.doc-mode{background:#fff;padding-left:0}
+body.doc-mode .sidebar{display:none}
+body.doc-mode .wrap{max-width:none;padding:48px clamp(16px,5vw,80px) 80px}
+body.doc-mode nav.toc{display:block;border:1px solid var(--rule)}
+body.doc-mode section.card{background:transparent;border-radius:0;padding:36px 0;margin:0;border-top:1px solid var(--rule)}
+body.doc-mode header.hero{padding:0 0 32px}
+@media print{.view-toggle{display:none}}
 </style>
 </head>
 <body>
@@ -258,6 +269,29 @@ figure.shot.narrow img{max-width:640px;margin:0 auto}
     if(sub&&map[sub])map[sub].classList.add('active');
   }
   window.addEventListener('scroll',update,{passive:true});update();
+})();
+</script>
+<button type="button" class="view-toggle" id="viewToggle" aria-pressed="false" title="본문만 화면에 꽉 차게 보기 (D, Esc로 해제)"><span>문서로 보기</span><kbd>D</kbd></button>
+<script>
+(function(){
+  // 문서 보기 토글. 버튼 또는 D 키로 전환, Esc 로 해제. 수정키 조합(⌘C 등)은 react-grab 용으로 건드리지 않는다.
+  var btn=document.getElementById('viewToggle');if(!btn)return;
+  var label=btn.querySelector('span'),KEY='report-doc-mode:'+location.pathname;
+  function set(on){
+    document.body.classList.toggle('doc-mode',on);
+    btn.setAttribute('aria-pressed',on);
+    label.textContent=on?'기본 보기':'문서로 보기';
+    try{localStorage.setItem(KEY,on?'1':'0');}catch(e){}
+  }
+  btn.addEventListener('click',function(){set(!document.body.classList.contains('doc-mode'));});
+  document.addEventListener('keydown',function(e){
+    var t=e.target;
+    if(e.metaKey||e.ctrlKey||e.altKey||(t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))))return;
+    if(e.key==='d'||e.key==='D'){e.preventDefault();set(!document.body.classList.contains('doc-mode'));}
+    else if(e.key==='Escape'&&document.body.classList.contains('doc-mode'))set(false);
+  });
+  var saved=null;try{saved=localStorage.getItem(KEY);}catch(e){}
+  if(saved==='1')set(true);
 })();
 </script>
 </body>
