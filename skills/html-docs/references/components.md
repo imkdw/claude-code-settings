@@ -115,7 +115,7 @@ SVG 내용은 `diagram-design` 스킬로 만든다. 넓은 그림은 `min-width`
 
 ## 화면 캡처
 
-이미지는 리포트 옆 `assets/` 에 두고 상대경로로 쓴다. 캡션에 출처(문서명, 쪽수)를 적는다. 가로로 긴 이미지는 `narrow` 로 폭을 제한한다.
+이미지는 문서 옆 `assets/` 에 두고 상대경로로 쓴다. 캡션에 출처(문서명, 쪽수)를 적는다. 가로로 긴 이미지는 `narrow` 로 폭을 제한한다.
 
 ```html
 <figure class="shot narrow">

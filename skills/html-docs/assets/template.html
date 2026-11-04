@@ -176,7 +176,7 @@ body.doc-mode header.hero{padding:0 0 32px}
 <header class="hero">
   <span class="eyebrow">{{EYEBROW}}</span>
   <h1>{{TITLE}}</h1>
-  <p class="lead">{{LEAD: 이 리포트가 무엇을 정리했는지 한두 문장}}</p>
+  <p class="lead">{{LEAD: 이 문서가 무엇을 정리했는지 한두 문장}}</p>
   <div class="meta">기준일 {{DATE}} / 근거: {{SOURCES_SHORT}}</div>
 </header>
 
@@ -220,7 +220,7 @@ body.doc-mode header.hero{padding:0 0 32px}
 <!-- 3 -->
 <section class="card" id="sources">
   <h2><span class="num">3</span>자료 출처</h2>
-  <p class="sub">이 리포트가 근거로 삼은 자료와 확인하지 못한 부분입니다.</p>
+  <p class="sub">이 문서가 근거로 삼은 자료와 확인하지 못한 부분입니다.</p>
   <ul>
     <li>{{자료명, 버전/날짜, 쪽수}}</li>
   </ul>
@@ -276,7 +276,7 @@ body.doc-mode header.hero{padding:0 0 32px}
 (function(){
   // 문서 보기 토글. 버튼 또는 D 키로 전환, Esc 로 해제. 수정키 조합(⌘C 등)은 react-grab 용으로 건드리지 않는다.
   var btn=document.getElementById('viewToggle');if(!btn)return;
-  var label=btn.querySelector('span'),KEY='report-doc-mode:'+location.pathname;
+  var label=btn.querySelector('span'),KEY='html-docs-doc-mode:'+location.pathname;
   function set(on){
     document.body.classList.toggle('doc-mode',on);
     btn.setAttribute('aria-pressed',on);
