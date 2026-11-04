@@ -16,7 +16,7 @@
 
 ## 카드 그리드 (요약, 비교)
 
-`g3` 는 3열, `g2` 는 2열. 좁은 화면에서는 1열로 접힌다.
+`g3` 는 최대 3열, `g2` 는 최대 2열 예시다. 카드가 최소 읽기 너비를 확보할 수 있는 만큼 열을 배치하고, 공간이 부족하면 자동으로 줄바꿈한다. 예시 개수 이상으로 카드를 늘리면 열 수도 늘어날 수 있다.
 
 ```html
 <div class="grid g2">
@@ -35,7 +35,7 @@
 
 ## 숫자 카드
 
-4열, 좁은 화면에서 2열.
+각 카드가 최소 읽기 너비를 확보하도록 열 수가 자동으로 바뀐다. 아주 좁은 화면에서는 1열까지 줄어든다.
 
 ```html
 <div class="stats">
@@ -102,12 +102,12 @@
 
 ## 다이어그램
 
-SVG 내용은 `diagram-design` 스킬로 만든다. 넓은 그림은 `min-width` 를 줘서 좁은 화면에서 가로 스크롤되게 한다.
+SVG 내용은 `diagram-design` 스킬로 만든다. `viewBox`를 지정하고 고정 높이를 넣지 않는다. `.dwrap`은 그림을 카드 폭에 맞추되 최소 너비를 유지해 좁은 화면에서 내부 가로 스크롤을 제공한다. 복잡한 그림은 `--diagram-min-width`를 `rem` 단위로 조정한다. SVG 내부 글자는 viewBox 좌표 단위를 유지한다. 최소 너비에서도 레이블이 본문의 약 `0.875rem` 이상으로 보이도록 설정한다. 예를 들어 viewBox 너비가 1000이고 가장 작은 글자가 20이면 최소 너비 `50rem`에서 레이블이 `1rem`으로 보인다.
 
 ```html
 <figure class="diagram">
   <div class="dwrap">
-    <svg viewBox="0 0 1000 480" width="100%" style="min-width:760px" role="img" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard','Apple SD Gothic Neo',sans-serif">...</svg>
+    <svg viewBox="0 0 1000 480" width="100%" style="--diagram-min-width:50rem" role="img" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard','Apple SD Gothic Neo',sans-serif" font-size="20">...</svg>
   </div>
   <figcaption>그림 1. 그림이 말하는 내용 한 문장.</figcaption>
 </figure>
@@ -124,7 +124,7 @@ SVG 내용은 `diagram-design` 스킬로 만든다. 넓은 그림은 `min-width`
 </figure>
 ```
 
-캡처 옆에 설명을 붙일 때는 `g-shot` (왼쪽 240px 이미지, 오른쪽 본문):
+캡처 옆에 설명을 붙일 때는 `g-shot` (왼쪽 최대 `15rem` 이미지, 오른쪽 본문; 카드 공간이 부족하면 세로 배치):
 
 ```html
 <div class="grid g-shot">
@@ -166,7 +166,7 @@ POST /api/v1/orders
 <span class="p">}</span></pre>
 </div>
 <div class="term-legend"><span><i class="m1"></i>에러 코드</span><span><i class="m2"></i>문제 필드</span></div>
-<p style="font-size:14px;color:var(--muted);margin-top:6px">원문을 가공했으면 여기에 적는다.</p>
+<p class="note">원문을 가공했으면 여기에 적는다.</p>
 ```
 
 ## 접기 (Q&A, 부록)
@@ -183,4 +183,4 @@ POST /api/v1/orders
 ## 보조 텍스트
 
 - 담당자 표시: `<span class="who">이름</span>`
-- 표/블록 아래 작은 설명: `<p style="font-size:14px;color:var(--muted)">...</p>`
+- 표/블록 아래 작은 설명: `<p class="note">...</p>`
